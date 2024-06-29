@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, datetime, mysqlEnum, unique } from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar, datetime, mysqlEnum, unique, boolean } from 'drizzle-orm/mysql-core';
 
 
 export const questionnaires = mysqlTable('questionnaires', {
@@ -8,14 +8,13 @@ export const questionnaires = mysqlTable('questionnaires', {
 export const questions = mysqlTable('questions', {
     id: int('id').primaryKey().autoincrement(),
     questionText: varchar('question_text', { length: 255 }),
-    test: varchar('test_test', { length: 255 }),
+    isRequired: boolean('is_required').notNull(),
     type: mysqlEnum('type', ['radio', 'free_text']),
     createdAt: datetime('created_at')
 });
 
 export const answers = mysqlTable('answers', {
     id: int('id').primaryKey().autoincrement(),
-
     createdAt: datetime('created_at'),
     hasAdditionalQuestionId: int('has_additional_question_id').references(() => questions.id)
 });
