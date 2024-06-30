@@ -7,7 +7,12 @@ const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => {
     console.log('qustions')
-    res.send('ok')    
+    res.send('ok')
+});
+
+router.post('/', (req: Request, res: Response) => {
+    console.log('qustions')
+    res.send('ok')
 });
 
 

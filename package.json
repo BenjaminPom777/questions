@@ -9,7 +9,8 @@
     "dev": "nodemon src/index.ts",
     "db:migrate": "drizzle-kit migrate",
     "db:generate": "drizzle-kit generate",
-    "db:drop": "drizzle-kit drop"
+    "db:drop": "drizzle-kit drop",
+    "db:mock": "nodemon src/db/mockData.ts"
   },
   "keywords": [],
   "author": "",
