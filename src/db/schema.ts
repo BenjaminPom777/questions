@@ -2,7 +2,8 @@ import { mysqlTable, int, varchar, datetime, mysqlEnum, unique, boolean } from '
 
 
 export const questionnaires = mysqlTable('questionnaires', {
-    id: int('id').primaryKey().autoincrement()
+    id: int('id').primaryKey().autoincrement(),
+    questionnaireName : varchar('questionnaire_name', { length: 255 }),
 });
 
 export const questionnairesQuestions = mysqlTable('questionnaires_questions', {
@@ -51,7 +52,6 @@ export const usersQuestionsAnswers = mysqlTable('users_questions_answers', {
     answerText: varchar('answer_text', { length: 255 }), // Optional text
 },
     (t) => ({
-        // todo: check why cant add questionnairesId
-        unq: unique().on(t.userId, t.questionId, t.answerId),
+        unq: unique('dog_dog').on(t.userId, t.questionId, t.answerId, t.questionnairesId),
     })
 );
