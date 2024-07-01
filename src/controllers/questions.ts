@@ -3,6 +3,7 @@ import { questions, questionnairesQuestions, questionnaires, radioAnswers, radio
 import db from './../db/pool';
 import { eq } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/mysql-core';
+import { v4 as uuidv4 } from 'uuid';
 
 interface RadioAnswer {
     id: number;
@@ -167,6 +168,7 @@ interface SubmitAnswersRequest {
 
 export const submitAnswersController = async (req: Request, res: Response) => {
     const { userId, questionnaireId, answers }: SubmitAnswersRequest = req.body;
+    const submissionId = uuidv4(); // Generate a random UUID for the submission
 
     try {
         // Validate the request body
@@ -185,7 +187,9 @@ export const submitAnswersController = async (req: Request, res: Response) => {
                 questionnairesId: questionnaireId,
                 questionId: answer.questionId,
                 answerId: answer.answerId || null,
-                answerText: answer.answerText || null
+                answerText: answer.answerText || null,
+                submissionId,
+                createdAt: new Date()
             });
         }
 

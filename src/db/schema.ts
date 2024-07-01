@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm';
 import { mysqlTable, int, varchar, datetime, mysqlEnum, unique, boolean } from 'drizzle-orm/mysql-core';
 
 
@@ -50,8 +51,10 @@ export const usersQuestionsAnswers = mysqlTable('users_questions_answers', {
     answerId: int('answer_id').references(() => radioAnswers.id), // Optional reference
     questionnairesId: int('questionnaires_id').references(() => questionnaires.id), // Optional reference
     answerText: varchar('answer_text', { length: 255 }), // Optional text
+    submissionId: varchar('submission_id', { length: 255 }).notNull(),
+    createdAt: datetime('created_at').default(sql`CURRENT_TIMESTAMP`).notNull()
 },
     (t) => ({
-        unq: unique('dog_dog').on(t.userId, t.questionId, t.answerId, t.questionnairesId),
+        unq: unique('unique_answer').on(t.userId, t.questionId, t.answerId, t.questionnairesId, t.submissionId),
     })
 );
