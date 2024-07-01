@@ -24,8 +24,7 @@ import { questions, radioAnswers, radioAnswersQuestions, users, questionnaires, 
             { questionnairesId: 1, questionsId: 1 },
             { questionnairesId: 1, questionsId: 2 },
             { questionnairesId: 1, questionsId: 3 },
-            { questionnairesId: 1, questionsId: 4 },
-            { questionnairesId: 1, questionsId: 5 },
+            { questionnairesId: 1, questionsId: 4 },       
         ])
 
 
