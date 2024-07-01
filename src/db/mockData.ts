@@ -3,13 +3,13 @@ import { questions, radioAnswers, radioAnswersQuestions, users, questionnaires, 
 
 (async () => {
     try {
-
         await db.insert(users).values([
             { id: 1, name: 'John Doe' },
         ])
 
         await db.insert(questionnaires).values([
-            { id: 1, questionnaireName: 'Gotech' }
+            { id: 1, questionnaireName: 'Gotech' },
+            { id: 2, questionnaireName: 'Random' }
         ])
 
         await db.insert(questions).values([
@@ -17,7 +17,7 @@ import { questions, radioAnswers, radioAnswersQuestions, users, questionnaires, 
             { id: 2, questionText: 'What language is your favorite', isRequired: false, type: 'radio' },
             { id: 3, questionText: 'What do you like about programming', isRequired: true, type: 'free_text' },
             { id: 4, questionText: 'How was the assigment', isRequired: true, type: 'radio' },
-            { id: 5, questionText: 'This is conditional question ', isRequired: true, type: 'radio' },
+            { id: 5, questionText: 'Explain why it was normal', isRequired: true, type: 'free_text' },
         ])
 
         await db.insert(questionnairesQuestions).values([
@@ -34,7 +34,7 @@ import { questions, radioAnswers, radioAnswersQuestions, users, questionnaires, 
             { id: 2, hasFreeText: false, hasAdditionalQuestionId: null, text: 'Typescript' },
             { id: 3, hasFreeText: false, hasAdditionalQuestionId: null, text: 'CoffeeScript' },
             { id: 4, hasFreeText: false, hasAdditionalQuestionId: null, text: 'Easy' },
-            { id: 5, hasFreeText: false, hasAdditionalQuestionId: null, text: 'Normal' },
+            { id: 5, hasFreeText: false, hasAdditionalQuestionId: 5, text: 'Normal' },
             { id: 6, hasFreeText: false, hasAdditionalQuestionId: null, text: 'Hard' },
             { id: 7, hasFreeText: true, hasAdditionalQuestionId: null, text: 'Other' },
         ])
@@ -50,10 +50,8 @@ import { questions, radioAnswers, radioAnswersQuestions, users, questionnaires, 
         ]);
 
         console.log('Mock Data inserted')
-        process.exit(1)
     } catch (error) {
         console.log(error)
-        process.exit(1)
     }
 })()
 
