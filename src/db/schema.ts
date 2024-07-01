@@ -8,6 +8,7 @@ export const questionnaires = mysqlTable('questionnaires', {
 });
 
 export const questionnairesQuestions = mysqlTable('questionnaires_questions', {
+    id: int('id').primaryKey().autoincrement(),
     questionsId: int('questions_id').references(() => questions.id),
     questionnairesId: int('questionnaires_id').references(() => questionnaires.id),
 },
@@ -24,6 +25,7 @@ export const questions = mysqlTable('questions', {
 });
 
 export const radioAnswersQuestions = mysqlTable('radio_answers_questions', {
+    id: int('id').primaryKey().autoincrement(),
     answerId: int('answer_id').references(() => radioAnswers.id),
     questionId: int('question_id').references(() => questions.id)
 },
