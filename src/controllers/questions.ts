@@ -1,5 +1,5 @@
 import { Request, Response } from 'express-serve-static-core';
-import { questions, questionnairesQuestions, questionnaires, radioAnswers, radioAnswersQuestions } from '../db/schema';
+import { questions, questionnairesQuestions, questionnaires, radioAnswers, radioAnswersQuestions, usersQuestionsAnswers } from '../db/schema';
 import db from './../db/pool';
 import { eq } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/mysql-core';
@@ -143,6 +143,53 @@ export const getQuestionsController = async (req: Request, res: Response) => {
         });
 
         res.json(questionnaire);
+    } catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({ message: error.message });
+        } else {
+            res.status(500).json({ message: 'An unexpected error occurred' });
+        }
+    }
+};
+
+interface Answer {
+    questionId: number;
+    answerId?: number; // Optional, for radio answers
+    answerText?: string; // Optional, for free text answers
+}
+
+interface SubmitAnswersRequest {
+    userId: number;
+    questionnaireId: number;
+    answers: Answer[];
+}
+
+
+export const submitAnswersController = async (req: Request, res: Response) => {
+    const { userId, questionnaireId, answers }: SubmitAnswersRequest = req.body;
+
+    try {
+        // Validate the request body
+        if (!userId || !questionnaireId || !answers || !Array.isArray(answers)) {
+            return res.status(400).json({ message: 'Invalid request body' });
+        }
+
+        // Insert each answer into the database
+        for (const answer of answers) {
+            if (!answer.questionId) {
+                return res.status(400).json({ message: 'Invalid answer data' });
+            }
+
+            await db.insert(usersQuestionsAnswers).values({
+                userId,
+                questionnairesId: questionnaireId,
+                questionId: answer.questionId,
+                answerId: answer.answerId || null,
+                answerText: answer.answerText || null
+            });
+        }
+
+        res.status(201).json({ message: 'Answers submitted successfully' });
     } catch (error) {
         if (error instanceof Error) {
             res.status(500).json({ message: error.message });
